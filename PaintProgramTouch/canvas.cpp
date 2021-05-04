@@ -4,16 +4,17 @@
 Canvas::Canvas(uint width, uint height) :
     QTabWidget()
 {
-
+    // Initalize memory for pixel data
     for (uint x = 0; x < width; x++)
     {
         m_pixels.push_back(std::vector<Pixel>());
         for(uint y = 0; y < height; y++)
         {
-            m_pixels[x].push_back(Pixel{0,0,0});
+            m_pixels[x].push_back(Pixel{0,0,0}); // 0,0,0 is black,  255,255,255 is white
         }
     }
 
+    // Set half the canvas to the color red
     for (uint x = 0; x < width; x++)
     {
         for (uint y = 0; y < height/2; y++)

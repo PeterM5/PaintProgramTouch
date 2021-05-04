@@ -5,20 +5,22 @@ Canvas::Canvas(uint width, uint height) :
     QTabWidget()
 {
 
-    for (int x = 0; x < width; x++)
+    for (uint x = 0; x < width; x++)
     {
         m_pixels.push_back(std::vector<Pixel>());
-        for(int y = 0; y < height; y++)
+        for(uint y = 0; y < height; y++)
         {
-            m_pixels[x].push_back(Pixel());
+            m_pixels[x].push_back(Pixel{0,0,0});
         }
     }
 
-    Pixel p;
-    p.blue = 20;
-    p.green = 20;
-    p.red = 100;
-    m_pixels[10][10] = p;
+    for (uint x = 0; x < width; x++)
+    {
+        for (uint y = 0; y < height/2; y++)
+        {
+            m_pixels[x][y].red = 255;
+        }
+    }
 }
 
 void Canvas::paintEvent(QPaintEvent *paintEvent)
@@ -35,8 +37,8 @@ void Canvas::paintEvent(QPaintEvent *paintEvent)
             QPen pen = QPen();
             //todo
 
-            QRect rect = QRect(x, y, 1, 1);
-            painter.drawRect(rect);
+            QRect rect = QRect(x*1, y*1, 1, 1);
+            painter.fillRect(rect, QColor(m_pixels[x][y].red,m_pixels[x][y].green,m_pixels[x][y].blue));
         }
     }
 }

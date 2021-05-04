@@ -11,7 +11,6 @@ void Canvas::paintEvent(QPaintEvent *paintEvent)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
-
-    QRect rect = QRect(290, 20, 70, 40);
-    painter.drawRect(rect);
+    Pixel p(40,40,20,20,20);
+    p.copyToBuffer(painter);
 }

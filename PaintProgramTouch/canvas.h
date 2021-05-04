@@ -1,6 +1,7 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
+#include "pixel.h"
 #include <QTabWidget>
 
 class Canvas: public QTabWidget

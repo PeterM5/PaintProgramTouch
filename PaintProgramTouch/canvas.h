@@ -3,15 +3,18 @@
 
 #include "pixel.h"
 #include <QTabWidget>
+#include <vector>
 
 class Canvas: public QTabWidget
 {
     Q_OBJECT
 public:
-    Canvas();
+    Canvas(uint width, uint height);
 
 private:
     void paintEvent(QPaintEvent* paintEvent) override;
+
+    std::vector<std::vector<Pixel>> m_pixels;
 };
 
 #endif // CANVAS_H

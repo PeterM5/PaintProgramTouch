@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    Canvas* c = new Canvas();
+    Canvas* c = new Canvas(200, 200);
     ui->tabWidget->clear();
     ui->tabWidget->addTab(c, "My first tab");
 }

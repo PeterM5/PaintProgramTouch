@@ -21,11 +21,10 @@ MainWindow::~MainWindow()
     delete m_colorPicker;
     delete ui;
 }
-#include <QDebug>
+
 QColor MainWindow::getSelectedColor()
 {
-    qDebug() << m_colorPicker->selectedColor();
-    return m_colorPicker->selectedColor();
+    return m_colorPicker->currentColor();
 }
 
 

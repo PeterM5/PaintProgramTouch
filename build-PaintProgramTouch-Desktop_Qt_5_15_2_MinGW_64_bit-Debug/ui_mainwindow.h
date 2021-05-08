@@ -10,8 +10,10 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
@@ -23,12 +25,15 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
+    QAction *actionColor_Picker;
     QWidget *centralwidget;
     QPushButton *pushButton;
     QTabWidget *tabWidget;
     QWidget *tab;
     QWidget *tab_2;
     QMenuBar *menubar;
+    QMenu *menuFile;
+    QMenu *menuMenu;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -36,6 +41,8 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(800, 600);
+        actionColor_Picker = new QAction(MainWindow);
+        actionColor_Picker->setObjectName(QString::fromUtf8("actionColor_Picker"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         pushButton = new QPushButton(centralwidget);
@@ -54,10 +61,18 @@ public:
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
         menubar->setGeometry(QRect(0, 0, 800, 21));
+        menuFile = new QMenu(menubar);
+        menuFile->setObjectName(QString::fromUtf8("menuFile"));
+        menuMenu = new QMenu(menubar);
+        menuMenu->setObjectName(QString::fromUtf8("menuMenu"));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);
+
+        menubar->addAction(menuFile->menuAction());
+        menubar->addAction(menuMenu->menuAction());
+        menuMenu->addAction(actionColor_Picker);
 
         retranslateUi(MainWindow);
 
@@ -70,9 +85,12 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        actionColor_Picker->setText(QCoreApplication::translate("MainWindow", "Color Picker", nullptr));
         pushButton->setText(QCoreApplication::translate("MainWindow", "Bombo", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("MainWindow", "Tab 1", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("MainWindow", "Tab 2", nullptr));
+        menuFile->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
+        menuMenu->setTitle(QCoreApplication::translate("MainWindow", "Menu", nullptr));
     } // retranslateUi
 
 };

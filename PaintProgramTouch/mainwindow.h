@@ -20,6 +20,7 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+    void on_btn_color_picker_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -13,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_colorPicker = new QColorDialog(this);
     m_colorPicker->show();
+
+    //Connections
+    connect(ui->actionColor_Picker, SIGNAL(triggered()), this, SLOT(on_btn_color_picker_clicked()));
 }
 
 MainWindow::~MainWindow()
@@ -31,4 +34,9 @@ QColor MainWindow::getSelectedColor()
 void MainWindow::on_pushButton_clicked()
 {
 
+}
+
+void MainWindow::on_btn_color_picker_clicked()
+{
+    m_colorPicker->show();
 }

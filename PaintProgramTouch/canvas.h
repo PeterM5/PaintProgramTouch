@@ -13,8 +13,12 @@ public:
 
 private:
     void paintEvent(QPaintEvent* paintEvent) override;
+    void wheelEvent(QWheelEvent* event);
 
     std::vector<std::vector<Pixel>> m_pixels;
+
+    float m_zoomFactor = 1;
+    const float m_cZoomIncrement = 0.1;
 };
 
 #endif // CANVAS_H

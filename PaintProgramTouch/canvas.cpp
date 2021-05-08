@@ -1,5 +1,6 @@
 #include "canvas.h"
 #include <QPainter>
+#include <QWheelEvent>
 
 Canvas::Canvas(uint width, uint height) :
     QTabWidget()
@@ -29,7 +30,7 @@ void Canvas::paintEvent(QPaintEvent *paintEvent)
     QPainter painter(this);
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
-    painter.scale(1, 1);//todo set as member variable and set through scrolling
+    painter.scale(m_zoomFactor, m_zoomFactor);
 
     for (int x = 0; x < m_pixels.size(); x++)
     {
@@ -42,4 +43,19 @@ void Canvas::paintEvent(QPaintEvent *paintEvent)
             painter.fillRect(rect, QColor(m_pixels[x][y].red,m_pixels[x][y].green,m_pixels[x][y].blue));
         }
     }
+}
+
+void Canvas::wheelEvent(QWheelEvent* event)
+{
+    if(event->angleDelta().y() > 0)
+    {
+        m_zoomFactor += m_cZoomIncrement;
+    }
+    else if(event->angleDelta().y() < 0)
+    {
+         m_zoomFactor -= m_cZoomIncrement;
+    }
+
+    //Call to redraw
+    update();
 }

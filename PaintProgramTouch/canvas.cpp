@@ -24,6 +24,8 @@ Canvas::Canvas(MainWindow* parent, uint width, uint height) :
             m_pixels[x][y].red = 255;
         }
     }
+
+    setMouseTracking(true);
 }
 
 void Canvas::paintEvent(QPaintEvent *paintEvent)
@@ -32,6 +34,8 @@ void Canvas::paintEvent(QPaintEvent *paintEvent)
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
     painter.scale(m_zoomFactor, m_zoomFactor);
+
+    m_pixelsMutex.lock();
 
     for (int x = 0; x < m_pixels.size(); x++)
     {
@@ -44,6 +48,8 @@ void Canvas::paintEvent(QPaintEvent *paintEvent)
             painter.fillRect(rect, QColor(m_pixels[x][y].red,m_pixels[x][y].green,m_pixels[x][y].blue));
         }
     }
+
+    m_pixelsMutex.unlock();
 }
 
 void Canvas::wheelEvent(QWheelEvent* event)
@@ -102,7 +108,11 @@ void Canvas::paintEvent(uint posX, uint posY)
         newPixel.red = col.red();
         newPixel.green = col.green();
 
+        m_pixelsMutex.lock();
+
         m_pixels[posX][posY] = newPixel;
+
+        m_pixelsMutex.unlock();
 
         //Call to redraw
         update();

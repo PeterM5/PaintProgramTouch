@@ -2,6 +2,8 @@
 #define CANVAS_H
 
 #include <QTabWidget>
+#include <QMutex>
+
 #include <vector>
 
 #include "mainwindow.h"
@@ -27,6 +29,7 @@ private:
     void paintEvent(uint posX, uint posY);
 
     std::vector<std::vector<Pixel>> m_pixels;
+    QMutex m_pixelsMutex;
 
     float m_zoomFactor = 1;
     const float m_cZoomIncrement = 0.1;

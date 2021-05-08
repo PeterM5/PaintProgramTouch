@@ -2,7 +2,8 @@
 #include <QPainter>
 #include <QWheelEvent>
 
-Canvas::Canvas(uint width, uint height) :
+Canvas::Canvas(MainWindow* parent, uint width, uint height) :
+    m_pParent(parent),
     QTabWidget()
 {
     // Initalize memory for pixel data
@@ -58,4 +59,52 @@ void Canvas::wheelEvent(QWheelEvent* event)
 
     //Call to redraw
     update();
+}
+
+void Canvas::mousePressEvent(QMouseEvent *mouseEvent)
+{
+    m_bMouseDown = true;
+    QPoint mouseLocation = getLocationFromMouseEvent(mouseEvent);
+    paintEvent(mouseLocation.x(), mouseLocation.y());
+}
+
+void Canvas::mouseReleaseEvent(QMouseEvent *releaseEvent)
+{
+    m_bMouseDown = false;
+}
+
+void Canvas::mouseMoveEvent(QMouseEvent *event)
+{
+    if(m_bMouseDown)
+    {
+        QPoint mouseLocation = getLocationFromMouseEvent(event);
+        paintEvent(mouseLocation.x(), mouseLocation.y());
+    }
+}
+
+QPoint Canvas::getLocationFromMouseEvent(QMouseEvent *event)
+{
+    QTransform transform;
+    transform.scale(m_zoomFactor, m_zoomFactor);
+    return transform.inverted().map(QPoint(event->x(), event->y()));
+}
+
+void Canvas::paintEvent(uint posX, uint posY)
+{
+    //Check positions are in bounds of vector
+    if(posX <= m_pixels.size() && posY <= m_pixels[0].size())
+    {
+        //Get color from color picker dialog in MainWindow
+        QColor col = m_pParent->getSelectedColor();
+
+        Pixel newPixel;
+        newPixel.blue = col.blue();
+        newPixel.red = col.red();
+        newPixel.green = col.green();
+
+        m_pixels[posX][posY] = newPixel;
+
+        //Call to redraw
+        update();
+    }
 }

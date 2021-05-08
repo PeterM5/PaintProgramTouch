@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "canvas.h"
+#include <QColorDialog>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,10 +16,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    QColor getSelectedColor();
+
 private slots:
     void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
+
+    QColorDialog* m_colorPicker;
 };
 #endif // MAINWINDOW_H

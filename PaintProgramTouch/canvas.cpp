@@ -35,7 +35,7 @@ void Canvas::paintEvent(QPaintEvent *paintEvent)
 
     painter.scale(m_zoomFactor, m_zoomFactor);
 
-    m_pixelsMutex.lock();
+    std::lock_guard<std::mutex> lock(m_pixelsMutex);
 
     for (int x = 0; x < m_pixels.size(); x++)
     {
@@ -48,8 +48,6 @@ void Canvas::paintEvent(QPaintEvent *paintEvent)
             painter.fillRect(rect, QColor(m_pixels[x][y].red,m_pixels[x][y].green,m_pixels[x][y].blue));
         }
     }
-
-    m_pixelsMutex.unlock();
 }
 
 void Canvas::wheelEvent(QWheelEvent* event)
@@ -108,11 +106,9 @@ void Canvas::paintEvent(uint posX, uint posY)
         newPixel.red = col.red();
         newPixel.green = col.green();
 
-        m_pixelsMutex.lock();
+        std::lock_guard<std::mutex> lock(m_pixelsMutex);
 
         m_pixels[posX][posY] = newPixel;
-
-        m_pixelsMutex.unlock();
 
         //Call to redraw
         update();
